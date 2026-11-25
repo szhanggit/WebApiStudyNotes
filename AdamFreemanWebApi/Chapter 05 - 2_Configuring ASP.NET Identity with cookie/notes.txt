@@ -1,0 +1,39 @@
+Update-Package Microsoft.Aspnet.Mvc -version 5.1.1		(might not need)
+Update-Package Microsoft.Aspnet.Webapi -version 5.1.1		(might not need)
+Update-Package Newtonsoft.Json -version 6.0.1			(might not need)
+Install-Package Microsoft.AspNet.Identity.EntityFramework �CVersion 2.0.0
+Install-Package Microsoft.AspNet.Identity.OWIN -Version 2.0.0
+Install-Package Microsoft.Owin.Host.SystemWeb -Version 2.1.0
+Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.1.1	(Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.2.7)
+Install-Package jquery -version 2.1.0
+Install-Package bootstrap -version 3.1.1
+Install-Package knockoutjs �Cversion 3.1.0
+
+http://msdn.microsoft.com/data/ef.aspx
+
+The steps to setup OWIN
+1. Add IdentityConfig.cs under App_Start
+using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(SportsStore.IdentityConfig))]
+namespace SportsStore {
+public class IdentityConfig {
+public void Configuration(IAppBuilder app) {}
+}
+}
+
+The steps to setup Identity:
+2. Create public class StoreUser : IdentityUser under Infrastructure/Identity
+3. Create public class StoreRole : IdentityRole under Infrastructure/Identity
+4. public class StoreIdentityDbContext : IdentityDbContext<StoreUser>
+5. public class StoreIdentityDbInitializer : CreateDatabaseIfNotExists<StoreIdentityDbContext>
+6. public class StoreUserManager : UserManager<StoreUser>
+7. public class StoreRoleManager : RoleManager<StoreRole>
+
+8. Edit IdentityConfig.cs
+9. Add signin and singout
+
+
+
+D:\Study\WebApiStudyNotes\AdamFreemanWebApi\Chapter 05 - 2_Configuring ASP.NET Identity with cookie\SportsStore\SportsStore\Views\Prep\Index.cshtml
+User: @(HttpContext.Current.User.Identity.Name)

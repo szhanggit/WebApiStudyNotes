@@ -1,0 +1,5 @@
+repository pattern c#
+proxy
+observor
+singleton
+bridge
