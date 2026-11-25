@@ -1,0 +1,68 @@
+https://csharp-video-tutorials.blogspot.com/2016/09/aspnet-web-api-enable-https.html
+
+ASP.NET Web API enable HTTPS 
+
+In this video we will discuss how to enable HTTPS for ASP.NET Web API service. 
+After HTTPS is enabled, if a request is issued using HTTP we want it to be automatically redirected to HTTPS.
+
+This is continuation to Part 16. Please watch Part 16 from ASP.NET Web API tutorial before proceeding.
+
+
+
+Two simple steps to enable HTTPS for ASP.NET Web API service. 
+
+Step 1 : Right click on the ASP.NET Web API project and add a class file. 
+Name it RequireHttpsAttribute. 
+Copy and paste the following code
+
+
+
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+
+namespace EmployeeService
+{
+    public class RequireHttpsAttribute : AuthorizationFilterAttribute
+    {
+        public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+            {
+                actionContext.Response = actionContext.Request
+                    .CreateResponse(HttpStatusCode.Found);
+                actionContext.Response.Content = new StringContent
+                    ("<p>Use https instead of http</p>", Encoding.UTF8, "text/html");
+
+                UriBuilder uriBuilder = new UriBuilder(actionContext.Request.RequestUri);
+                uriBuilder.Scheme = Uri.UriSchemeHttps;
+                uriBuilder.Port = 44337;
+
+                actionContext.Response.Headers.Location = uriBuilder.Uri;
+            }
+            else
+            {
+                base.OnAuthorization(actionContext);
+            }
+        }
+    }
+}
+
+Step 2 : Include the following line of code in Register() method of WebApiConfig class in WebApiConfig.cs file in App_Start folder. 
+This adds RequireHttpsAttribute as a filter to the filters collection. So for every request the code in this filter is executed. 
+If the request is issued using HTTP, it will be automatically redirected to HTTPS.
+
+config.Filters.Add(new RequireHttpsAttribute());
+
+Please note : 
+If you don't want to enable HTTPS for the entire application then don't add RequireHttpsAttribute to the filters collection 
+on the config object in the register method. 
+Simply decorate the controller class or the action method with RequireHttpsAttribute for which you want HTTPS to be enabled. 
+For the rest of the controllers and action methods HTTPS will not be enabled.
+
+
+https://localhost:44315/api/employees?callback=ABC 
+http://localhost:14746/api/employees?callback=ABC 
