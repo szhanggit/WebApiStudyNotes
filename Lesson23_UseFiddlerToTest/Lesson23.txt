@@ -1,0 +1,74 @@
+https://csharp-video-tutorials.blogspot.com/2016/12/using-fiddler-to-test-aspnet-web-api.html
+
+Using fiddler to test ASP.NET Web API token based authentication
+Suggested Videos
+Part 20 - ASP.NET Web API token authentication
+Part 21 - ASP.NET Web API user registration
+Part 22 - Using asp.net identity with Web API
+
+In this video we will discuss how to test ASP.NET Web API token based authentication
+the using fiddler. 
+This is continuation to Part 22. Please watch Part 22 from ASP.NET Web API tutorial before proceeding.
+
+In our previous video we have registered a new user with the following email address and password. 
+The username is also the email address.
+Email : test1@test.com
+Password : Test123!
+
+
+
+Now let's use fiddler and generate the access token using the above username and password. 
+Use the Composer tab in Fiddler to compose a request. 
+Fiddler configuration is shown below.
+
+    Issue a POST request to /token 
+    In the request body include username and the password. 
+    We also need to set grant_type=password. 
+	This indicates that we are presenting password for acquiring access token.
+
+Token generation in ASP.NET Web API
+
+POST	http://localhost:53518/token
+Host:	localhost:53518
+username=test1@test.com&password=Test123!&grant_type=password
+
+
+{
+    "access_token": "S4PwHhYzUaWMMJZfVCqVIH02aKuIekw2U4SZag78WDkTULFy3cGYOKuP1CppAbphPGt2Z95QgR-noboy24uQEKk3OSz2szljl4WWw7cNQqzuDW0mvqifPnTz-r8hAXG4HJAIpGF04vkWDyVxdAm8qXrFhyKiFAB_0f7aqv7pik9tMAZde9dEe97LVI9ads6j51JwJ5bXB2z84kGBgRP74dYY1FL01ixgEnxWy0n9Rmwwy0TxwBktru_irk10wNQf47xWNUo1TzX9fEZz7h7jV8pJY_8K7prUZwI6LGEBXj5ngyvvBn474d0xWL50rOe-0HbP_L3_9Yfjs9vwqQ3EnD9b7b-PGmx6SyUego26YciclPFabYTrQMZur4gi_plqMmF0AXkEQUduaUVNOvk72KIzt8xKEKAPaDeNKAu4pASmPRP9qAOQV6aHL0lwi6Z7qN44sf-vEpd4aBtB2vZIp2iregMJhM3j35DlUdbkLrA",
+    "token_type": "bearer",
+    "expires_in": 1209599,
+    "userName": "test1@test.com",
+    ".issued": "Sat, 17 Oct 2020 06:16:00 GMT",
+    ".expires": "Sat, 31 Oct 2020 06:16:00 GMT"
+}
+
+http://localhost:53518/api/employee
+Authorization		bearer S4PwHhYzUaWMMJZfVCqVIH02aKuIekw2U4SZag78WDkTULFy3cGYOKuP1CppAbphPGt2Z95QgR-noboy24uQEKk3OSz2szljl4WWw7cNQqzuDW0mvqifPnTz-r8hAXG4HJAIpGF04vkWDyVxdAm8qXrFhyKiFAB_0f7aqv7pik9tMAZde9dEe97LVI9ads6j51JwJ5bXB2z84kGBgRP74dYY1FL01ixgEnxWy0n9Rmwwy0TxwBktru_irk10wNQf47xWNUo1TzX9fEZz7h7jV8pJY_8K7prUZwI6LGEBXj5ngyvvBn474d0xWL50rOe-0HbP_L3_9Yfjs9vwqQ3EnD9b7b-PGmx6SyUego26YciclPFabYTrQMZur4gi_plqMmF0AXkEQUduaUVNOvk72KIzt8xKEKAPaDeNKAu4pASmPRP9qAOQV6aHL0lwi6Z7qN44sf-vEpd4aBtB2vZIp2iregMJhM3j35DlUdbkLrA
+
+With the above configuration in place, click the Execute button in Fiddler. 
+Notice we get the access token back. 
+You can also see when the token is issued and when it expires. 
+web api create token
+
+Now let's understand how the access token is generated.
+The code that generates the access token is provided by ASP.NET Web API out of the box. 
+To see this code open the file "Startup.Auth.cs" that is present in App_Start folder. 
+Notice in the ConfigureAuth() method
+
+    An instance of OAuthAuthorizationServerOptions is created
+    The /Token end point to which we have posted username and password is specified in here
+    The token expiry is specified using AccessTokenExpireTimeSpan property. 
+	In this case the token expires 14 days after it is issued. You can change this to meet your application needs.
+    The Provider property is initialised with a new instance of ApplicationOAuthProvider class. 
+	This class has GrantResourceOwnerCredentials() method which verifies if the provided username and password are valid. 
+	If valid an access token is issued. 
+	The token is generated when context.Validated(ticket) method is called.
+
+Now let us see how to call EmployeesController and retrieve employees data.
+
+If we issue a GET request to http://localhost:53518/api/employee we get 401 Unauthorized error. 
+Since the EmployeesController is decorated with [Authorize] attribute, the request needs to be authenticated. 
+So with every request we have to send the Bearer token using Authorization header as shown in fiddler below.
+fiddler bearer token
+
+In our next video we will discuss implementing the Login page for the sample application that we have been working with in this series.
