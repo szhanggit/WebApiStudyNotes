@@ -1,0 +1,6 @@
+Update-Package microsoft.aspnet.mvc -version 5.1.1	(will break the application)
+Update-Package microsoft.aspnet.webapi -version 5.1.1	(May not need too)
+Update-Package Newtonsoft.json -version 6.0.1
+Install-Package jquery -version 2.1.0
+Install-Package bootstrap -version 3.1.1
+Install-Package knockoutjs ¨Cversion 3.1.0
