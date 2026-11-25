@@ -1,0 +1,14 @@
+﻿https://code-maze.com/aspnetcore-modelstate-validation-web-api/
+
+Install-Package Swashbuckle.AspNetCore
+Install-Package Microsoft.ApplicationInsights
+Install-Package Newtonsoft.Json
+http://localhost:5132/swagger/index.html
+
+
+{
+    "Description": "Book description",
+    "ISBN": "123456789"
+}
+
+https://code-maze.com/aspnetcore-modelstate-validation-web-api/

@@ -1,0 +1,5 @@
+https://www.c-sharpcorner.com/members/catcher-wong
+https://www.cnblogs.com/catcher1994
+https://github.com/catcherwong/Demos/tree/master
+
+https://www.c-sharpcorner.com/article/using-fluentvalidation-in-asp-net-core/

@@ -1,0 +1,7 @@
+﻿Install-Package Swashbuckle.AspNetCore
+Install-Package Microsoft.ApplicationInsights
+Install-Package Newtonsoft.Json
+http://localhost:30905/swagger/index.html
+
+https://referbruv.com/blog/posts/working-with-filters-in-aspnet-core-explained-with-examples	(Good)
+https://www.thecodebuzz.com/filters-in-net-core-best-practices/
