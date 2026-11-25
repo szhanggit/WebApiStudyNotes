@@ -1,0 +1,138 @@
+https://csharp-video-tutorials.blogspot.com/2016/12/aspnet-web-api-login-page.html
+
+ ASP.NET Web API login page
+Suggested Videos
+Part 21 - ASP.NET Web API user registration
+Part 22 - Using asp.net identity with Web API
+Part 23 - Using fiddler to test ASP.NET Web API token based authentication
+
+In this video we will discuss implementing login page for ASP.NET Web API. 
+This is continuation to Part 23. Please watch Part 23 from ASP.NET Web API tutorial before proceeding.
+
+We want to design a login page that looks as shown below
+asp net web api user login
+
+
+
+If we provide invalid username and password the error should be displayed as shown below
+asp net web api user authentication
+
+username=test1@test.com&password=Test123!&grant_type=password
+
+Add a new HTML page to the EmployeeService project. Name it Login.html. Copy and paste the following HTML & jQuery code.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <!--Table to capture username and password-->
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <th colspan="2">
+                            Existing User Login
+                            <a href="Register.html" class="btn btn-success pull-right">
+                                Register
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Usename</td>
+                        <td>
+                            <input type="text" id="txtUsername" placeholder="Username" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <input type="password" id="txtPassword"
+                                   placeholder="Password" />
+                        </td>
+                    </tr>
+                    <tr class="success">
+                        <td colspan="2">
+                            <input id="btnLogin" class="btn btn-success" type="button"
+                                   value="Login" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Bootstrap alert to display error message if the login fails-->
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" href="#" class="close">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+            $('#btnLogin').click(function () {
+                $.ajax({
+                    // Post username, password & the grant type to /token
+                    url: '/token',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: {
+                        username: $('#txtUsername').val(),
+                        password: $('#txtPassword').val(),
+                        grant_type: 'password'
+                    },
+                    // When the request completes successfully, save the
+                    // access token in the browser session storage and
+                    // redirect the user to Data.html page. We do not have
+                    // this page yet. So please add it to the
+                    // EmployeeService project before running it
+                    success: function (response) {
+                        sessionStorage.setItem("accessToken", response.access_token);
+                        window.location.href = "Data.html";
+                    },
+                    // Display errors if any in the Bootstrap alert <div>
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+Please note : 
+1. sessionStorage data is lost when the browser window is closed.
+2. To store an item in the browser session storage use setItem() method
+     Example : sessionStorage.setItem("accessToken", response.access_token)
+3. To retrieve an item from the browser session storage use getItem() method
+     Example : sessionStorage.getItem("accessToken")
+4. To remove an item from the browser session storage use removeItem() method
+     Example : sessionStorage.removeItem('accessToken')
+
+On the Register.html page, we do not have Login button, which takes us to the Login page if the user is already registered. 
+So please include Login button just below "New User Registration" text in the <th> element on Register.html page as shown below.
+
+<thead>
+    <tr class="success">
+        <th colspan="2">
+            New User Registration
+            <a href="Login.html" class="btn btn-success pull-right">Login</a>
+        </th>
+    </tr>
+</thead>
+
+In our next video we will discuss implementing the Data.html page which retrieves data by calling the EmployeesController using the bearer token.
