@@ -1,0 +1,142 @@
+https://csharp-video-tutorials.blogspot.com/2016/11/aspnet-web-api-user-registration.html
+
+In this video we will discuss implementing new user registration page. 
+This is continuation to Part 20. 
+Please watch Part 20 from ASP.NET Web API tutorial before proceeding.
+
+
+
+The registration page should be as shown below.
+ASP.NET Web API user registration
+
+
+
+For a new user to register they have to provide
+1. Email address
+2. Password 
+3. Confirm password 
+
+When all the fields are provided and when the Register button is clicked, 
+the new user details should be saved and a modal dialog should be displayed as shown below.
+asp.net web api register user
+
+To achieve this, add an HTML page to EmployeeService project. 
+Name it Register.html. 
+Copy and paste the following HTML and jQuery code.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="well">
+            <!--This table contains the fields that we want to capture to register a new user-->
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <th colspan="2">
+                            New User Registration
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="text" id="txtEmail" placeholder="Email" /> </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password" id="txtPassword"
+                                   placeholder="Password" /></td>
+                    </tr>
+                    <tr>
+                        <td>Confirm Password</td>
+                        <td><input type="password" id="txtConfirmPassword"
+                                   placeholder="Confirm Password" /></td>
+                    </tr>
+                    <tr class="success">
+                        <td colspan="2">
+                            <input id="btnRegister" class="btn btn-success"
+                                   type="button" value="Register" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Bootstrap modal dialog that shows up when regsitration is successful-->
+            <div class="modal fade" tabindex="-1" id="successModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <h2 class="modal-title">Registration Successful!</h2>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success"
+                                    data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Bootstrap alert to display any validation errors-->
+            <div id="divError" class="alert alert-danger collapse">
+                <a id="linkClose" href="#" class="close">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //Close the bootstrap alert
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+            // Save the new user details
+            $('#btnRegister').click(function () {
+                $.ajax({
+                    url: '/api/account/register',
+                    method: 'POST',
+                    data: {
+                        email: $('#txtEmail').val(),
+                        password: $('#txtPassword').val(),
+                        confirmPassword: $('#txtConfirmPassword').val()
+                    },
+                    success: function () {
+                        $('#successModal').modal('show');
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+Please note : 
+1. The ajax() method posts the data to '/api/account/register'
+2. You will find the Register() method in AccountController in Controllers folder
+3. AccountController is provided by ASP.NET Web API, which saves data to a local membership database
+
+In our next video we will discuss where the users registration data is stored and all the customizations that can be made.

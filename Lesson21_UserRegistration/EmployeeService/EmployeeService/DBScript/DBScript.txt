@@ -1,0 +1,18 @@
+﻿Create table ApiEmployees
+(
+     ID int primary key identity,
+     FirstName nvarchar(50),
+     LastName nvarchar(50),
+     Gender nvarchar(50),
+     Salary int
+)
+Go
+
+Insert into ApiEmployees values ('Mark', 'Hastings', 'Male', 60000)
+Insert into ApiEmployees values ('Steve', 'Pound', 'Male', 45000)
+Insert into ApiEmployees values ('Ben', 'Hoskins', 'Male', 70000)
+Insert into ApiEmployees values ('Philip', 'Hastings', 'Male', 45000)
+Insert into ApiEmployees values ('Mary', 'Lambeth', 'Female', 30000)
+Insert into ApiEmployees values ('Valarie', 'Vikings', 'Female', 35000)
+Insert into ApiEmployees values ('John', 'Stanmore', 'Male', 80000)
+Go
