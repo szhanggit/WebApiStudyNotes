@@ -1,0 +1,34 @@
+https://csharp-video-tutorials.blogspot.com/2016/08/creating-web-api-project.html
+
+Controller:
+MVC inherites from Controller.				System.Web.Mvc
+API inherites from ApiController.			System.Web.Http;
+
+POST is for Create.
+Put is for Update.
+
+GlobalConfiguration.Configure(WebApiConfig.Register);		API (WebApiConfig.cs)
+RouteConfig.RegisterRoutes(RouteTable.Routes);				MVC (RouteConfig.cs)
+
+
+http://localhost:14746/api/values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
