@@ -1,0 +1,7 @@
+1. Create MVC.
+2. Create WebAPI. However system cannot find WebAPI.
+
+Solution:
+Go to Global.asax.cs
+Add 
+GlobalConfiguration.Configure(WebApiConfig.Register);

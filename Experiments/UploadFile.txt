@@ -1,0 +1,2 @@
+https://docs.microsoft.com/en-us/answers/questions/178002/aspnet-48-webapi-streaming-large-file-upload-fails.html
+https://www.yogihosting.com/jquery-file-upload/
