@@ -1,0 +1,34 @@
+Web API doesn¡¯t use the standard ASP.NET platform configuration features, such as the
+Web.config file. Configuration is performed in the App_Start/WebApiConfig.cs file,
+which is referenced from the global application class when Web API is deployed to IIS.
+
+
+Steps to add DI:
+
+Install-Package Ninject -version 3.0.1.10
+Install-Package Ninject.Extensions.ChildKernel -Version 3.0.0.5
+
+Install-Package Ninject.Web.Common -version 3.0.0.7
+Install-Package Ninject.MVC3 -Version 3.0.0.6
+
+
+
+
+
+
+
+
+Add NinjectResolver.cs under Infrastructure
+Bindings shall be added in the class.
+
+Change WebApiConfig:
+config.DependencyResolver = new NinjectResolver();
+
+Change Application_Start:
+AreaRegistration.RegisterAllAreas();
+GlobalConfiguration.Configure(WebApiConfig.Register);
+RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+System.Web.Mvc.DependencyResolver.SetResolver(
+(System.Web.Mvc.IDependencyResolver)
+GlobalConfiguration.Configuration.DependencyResolver); (Add this)
