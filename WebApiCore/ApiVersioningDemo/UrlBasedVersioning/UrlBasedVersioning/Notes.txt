@@ -1,0 +1,6 @@
+﻿https://localhost:7276/api/test	(Will not work)
+https://localhost:7276/api/1.0/test
+https://localhost:7276/api/2.0/test
+https://localhost:7276/api/3.0/test
+
+{"error":{"code":"UnsupportedApiVersion","message":"The HTTP resource that matches the request URI 'https://localhost:7276/api/3.0/test' does not support the API version '3.0'.","innerError":null}}

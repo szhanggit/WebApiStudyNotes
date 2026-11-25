@@ -1,0 +1,5 @@
+https://code-maze.com/aspnetcore-api-versioning/
+https://github.com/dotnet/aspnet-api-versioning/wiki
+https://edenred.atlassian.net/wiki/spaces/TXCLOUD/pages/13007847477/API+Versioning
+
+

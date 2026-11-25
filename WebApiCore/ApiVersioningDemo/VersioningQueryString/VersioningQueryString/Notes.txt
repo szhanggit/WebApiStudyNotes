@@ -1,0 +1,12 @@
+﻿[GET]	https://localhost:7299/api/test?api-version=2.0
+[GET]	https://localhost:7299/api/test?api-version=1.0
+[GET]	https://localhost:7299/api/test?api-version=3.0
+[GET]	https://localhost:7299/api/test
+
+{
+    "error": {
+        "code": "UnsupportedApiVersion",
+        "message": "The HTTP resource that matches the request URI 'https://localhost:7299/api/test' does not support the API version '3.0'.",
+        "innerError": null
+    }
+}
