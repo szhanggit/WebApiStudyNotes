@@ -1,0 +1,6 @@
+https://codewithmukesh.com/blog/onion-architecture-in-aspnet-core/
+https://github.com/iammukeshm/OnionArchitecture
+
+
+add-migration Initial
+update-database
