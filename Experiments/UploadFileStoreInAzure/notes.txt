@@ -1,0 +1,9 @@
+https://www.youtube.com/watch?v=DrmwGNhrZ7c
+How to UPLOAD file with ASP.NET CORE WEB API | C# tutorial for beginners
+
+
+Install-package Azure.Storage.Blobs
+StorageService
+Install-package Microsoft.Extensions.Azure
+
+https://github.com/techwithpat/WebApiFileUpload
