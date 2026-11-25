@@ -1,0 +1,25 @@
+swashbuckle
+http://localhost:56871/swagger/index
+
+
+https://nwb.one/blog/swagger-api-versioning-dotnet-core
+
+services.AddControllers();	//Without this line of code, it will show this error message:
+services.AddSwaggerGen
+
+
+
+
+System.AggregateException: 
+'Some services are not able to be constructed (Error while validating the service descriptor 
+'ServiceType: Swashbuckle.AspNetCore.Swagger.ISwaggerProvider Lifetime: Transient 
+ImplementationType: Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator': 
+Unable to resolve service for type 'Microsoft.AspNetCore.Mvc.ApiExplorer.IApiDescriptionGroupCollectionProvider' 
+while attempting to activate 'Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator'.) (Error while validating the service descriptor 
+'ServiceType: Microsoft.Extensions.ApiDescriptions.IDocumentProvider Lifetime: 
+Singleton ImplementationType: Microsoft.Extensions.ApiDescriptions.DocumentProvider': 
+Unable to resolve service for type 'Microsoft.AspNetCore.Mvc.ApiExplorer.IApiDescriptionGroupCollectionProvider' 
+while attempting to activate 'Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator'.)'
+
+Add header parameters
+https://stackoverflow.com/questions/41493130/web-api-how-to-add-a-header-parameter-for-all-api-in-swagger
