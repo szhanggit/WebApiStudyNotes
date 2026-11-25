@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace Dispatch.Controllers
+{
+    [RoutePrefix("api/today")]
+    [Route("{action=DayOfWeek}")]
+    //api/today/{action=DayOfWeek}
+    [Route("{action=DayOfWeek}/{day:range(0, 6)}")]
+    public class TodayController : ApiController
+    {
+        [HttpGet]
+        //[Route("dayofweek")]
+        public string DayOfWeek()
+        {
+            return DateTime.Now.ToString("dddd");
+        }
+        [HttpGet]
+        //[Route("dayofweek/{day:range(0, 6)}")]
+        public string DayOfWeek(int day)
+        {
+            return Enum.GetValues(typeof(DayOfWeek)).GetValue(day).ToString();
+        }
+        [HttpGet]
+        //[Route("~/getdaynumber", Order=1)]
+        public int DayNumber()
+        {
+            return DateTime.Now.Day;
+        }
+    }
+}
