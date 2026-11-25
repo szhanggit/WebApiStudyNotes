@@ -1,0 +1,13 @@
+Update-Package microsoft.aspnet.mvc -version 5.1.1	(It might not be used)
+Update-Package microsoft.aspnet.webapi -version 5.1.1	(It might not be used)
+Update-Package Newtonsoft.json -version 6.0.1		(It might not be used)
+
+Install-Package jquery -version 2.1.0
+Install-Package bootstrap -version 3.1.1
+Install-Package knockoutjs ¨Cversion 3.1.0
+
+Setting Up JavaScript IntelliSense
+Listing 2-10. Adding IntelliSense References to the _references.js File
+/// <reference path="jquery-2.1.0.js" />
+/// <reference path="knockout-3.1.0.debug.js" />
+A reference element has a path attribute that refers to one of the JavaScript files in the Scripts folder.
