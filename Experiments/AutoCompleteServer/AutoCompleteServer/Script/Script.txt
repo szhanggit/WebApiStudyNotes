@@ -1,0 +1,169 @@
+﻿CREATE TABLE [dbo].[Event]
+(
+[Id] [int] NOT NULL IDENTITY(1, 1) NOT FOR REPLICATION,
+[EventName] [nvarchar](100) NULL,
+[StartDateTime] [DateTime] NULL,
+[EndDateTime] [DateTime] NULL,
+[Fee] decimal null,
+[Status] int null
+)
+GO
+
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Badminton', '2021-01-01', '2021-01-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Boxing', '2021-02-01', '2021-02-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Bobsleigh', '2021-03-01', '2021-03-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Breaking', '2021-04-01', '2021-04-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Archery', '2021-05-01', '2021-05-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Volleyball', '2021-06-01', '2021-06-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Basketball', '2021-07-01', '2021-07-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Curling', '2021-08-01', '2021-08-02', 50, 1);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Diving', '2021-09-01', '2021-09-02', 50, 0);
+insert into [Event] (EventName, StartDateTime, EndDateTime, Fee, [Status]) values ('Football', '2021-10-01', '2021-10-02', 50, 0);
+
+DROP type [dbo].[Event_Input]
+CREATE TYPE [dbo].[Event_Input] AS TABLE(
+	[Id] int NOT NULL,
+	[EventName] [nvarchar](100) NOT NULL,
+	[StartDateTime] [DateTime] NOT NULL,
+	[EndDateTime] [DateTime] NOT NULL,
+	[Fee] decimal null,
+	[Status] int null
+)
+GO
+
+
+DROP type [dbo].[EventIdList_Input]
+CREATE TYPE [dbo].[EventIdList_Input] AS TABLE(
+	[Id] int NOT NULL
+)
+GO
+
+
+IF EXISTS ( SELECT  1
+            FROM    dbo.sysobjects
+            WHERE   id = OBJECT_ID(N'[dbo].[spEditEvents]')
+                    AND OBJECTPROPERTY(id, N'IsProcedure') = 1 )
+    DROP PROCEDURE [dbo].[spEditEvents]
+GO
+
+CREATE PROCEDURE [dbo].[spEditEvents]
+	@ErrorMessage NVARCHAR(4000) OUTPUT,
+	@Events Event_Input Readonly
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+    BEGIN TRAN
+    BEGIN TRY	
+		declare @count int;
+		select @count = count(1) from @Events	
+
+		if(@count > 0)
+		begin
+			update e
+			set e.EventName = ev.EventName
+			, e.StartDateTime = ev.StartDateTime
+			, e.EndDateTime = ev.EndDateTime
+			, e.Fee = ev.Fee
+			, e.[Status] = ev.[Status]
+			from Event e with(nolock) 
+			inner join @Events ev on e.Id = ev.Id
+		end
+		
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        ROLLBACK TRANSACTION;
+		return 0;
+    END CATCH;
+	IF @@TRANCOUNT > 0
+	begin
+		COMMIT TRANSACTION;
+		return 1;
+	end
+END
+GO
+
+
+
+
+
+IF EXISTS ( SELECT  1
+            FROM    dbo.sysobjects
+            WHERE   id = OBJECT_ID(N'[dbo].[spDeleteEvents]')
+                    AND OBJECTPROPERTY(id, N'IsProcedure') = 1 )
+    DROP PROCEDURE [dbo].[spDeleteEvents]
+GO
+
+CREATE PROCEDURE [dbo].[spDeleteEvents]
+	@ErrorMessage NVARCHAR(4000) OUTPUT,
+	@Events EventIdList_Input Readonly
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+    BEGIN TRAN
+    BEGIN TRY	
+		declare @count int;
+		select @count = count(1) from @Events	
+
+		if(@count > 0)
+		begin
+			delete e from Event e with(nolock) 
+			inner join @Events ev on e.Id = ev.Id
+		end
+		
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        ROLLBACK TRANSACTION;
+		return 0;
+    END CATCH;
+	IF @@TRANCOUNT > 0
+	begin
+		COMMIT TRANSACTION;
+		return 1;
+	end
+END
+GO
+
+
+
+IF EXISTS ( SELECT  1
+            FROM    dbo.sysobjects
+            WHERE   id = OBJECT_ID(N'[dbo].[spAddEvents]')
+                    AND OBJECTPROPERTY(id, N'IsProcedure') = 1 )
+    DROP PROCEDURE [dbo].[spAddEvents]
+GO
+
+CREATE PROCEDURE [dbo].[spAddEvents]
+	@ErrorMessage NVARCHAR(4000) OUTPUT,
+	@Events Event_Input Readonly
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+    BEGIN TRAN
+    BEGIN TRY	
+		declare @count int;
+		select @count = count(1) from @Events	
+
+		if(@count > 0)
+		begin
+			insert into Event (EventName, StartDateTime, EndDateTime, Fee, [Status])
+			select EventName, StartDateTime, EndDateTime, Fee, [Status] from @Events;			
+		end
+		
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+        ROLLBACK TRANSACTION;
+		return 0;
+    END CATCH;
+	IF @@TRANCOUNT > 0
+	begin
+		COMMIT TRANSACTION;
+		return 1;
+	end
+END
+GO

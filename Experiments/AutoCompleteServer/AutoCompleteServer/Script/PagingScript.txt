@@ -1,0 +1,120 @@
+﻿drop PROCEDURE [dbo].[sp_Product]
+
+Alter PROCEDURE [dbo].[sp_Product]
+  @page INT,
+  @size INT,
+  @sort nvarchar(50) ,
+  @sortdirection nvarchar(10),
+  @totalrow INT OUTPUT,
+  @ErrorMessage NVARCHAR(4000) OUTPUT
+AS
+BEGIN
+    DECLARE @SQL nvarchar(4000)
+    DECLARE @Params nvarchar(max)
+    BEGIN TRAN
+    BEGIN TRY	
+SET @Params = N'@page int, @size int, @sort nvarchar(50)'
+
+SET @SQL = '
+DECLARE @offset INT
+DECLARE @newsize INT
+
+IF(@page=0)
+begin
+   SET @offset = @page;
+   SET @newsize = @size
+end
+ELSE 
+begin
+    SET @offset = @page+1;
+    SET @newsize = @size-1
+end
+
+SET NOCOUNT ON;
+
+WITH ProductSet AS
+(
+  SELECT *,
+      ROW_NUMBER() OVER (ORDER BY @sort '+@sortdirection+') AS ''Index''
+  FROM [dbo].[Product] with(nolock) 
+)
+   SELECT Id, ProgramId, ProductCode, ExternalProductCode, ProductName, [Description], Note, MinRedeemQuantity, MaxIssuingQuantity, [Status], CreatedBy, CreatedOn, ExpirationDate 
+   FROM ProductSet with(nolock)
+   WHERE [Index] BETWEEN @offset AND (@offset + @newsize)'
+
+
+   EXEC sp_executesql @SQL, @Params, @page = @page, @size = @size, @sort = @sort
+   set @totalrow = (SELECT COUNT(*) FROM [dbo].[Product] with(nolock));
+   COMMIT TRANSACTION;
+   return 1;
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+		return -1;
+    END CATCH;
+
+
+END
+
+---------------------------------------------------------------------
+
+
+Alter PROCEDURE [dbo].[sp_Product]
+  @page INT,
+  @size INT,
+  @sort nvarchar(50) ,
+  @sortdirection nvarchar(10),
+  @VoucherNumberGenerateWay int = null,
+  @totalrow INT OUTPUT,
+  @ErrorMessage NVARCHAR(4000) OUTPUT
+AS
+BEGIN
+    BEGIN TRAN
+    BEGIN TRY	
+
+
+   ;WITH pg AS
+   (
+      SELECT Id
+      FROM dbo.Product with(nolock)
+	  where ISNULL(@VoucherNumberGenerateWay, '') = '' OR VoucherNumberGenerateWay = @VoucherNumberGenerateWay
+		ORDER BY 
+		CASE WHEN @sort = 'Id' AND @sortdirection ='ASC' THEN ProductCode END ASC,
+		CASE WHEN @sort = 'Id' AND @sortdirection ='DESC' THEN ProductCode END DESC,
+		CASE WHEN @sort = 'ProductCode' AND @sortdirection ='ASC' THEN ProductCode END ASC,
+		CASE WHEN @sort = 'ProductCode' AND @sortdirection ='DESC' THEN ProductCode END DESC,
+		CASE WHEN @sort = 'ExternalProductCode' AND @sortdirection ='ASC' THEN ExternalProductCode END ASC,
+		CASE WHEN @sort = 'ExternalProductCode' AND @sortdirection ='DESC' THEN ExternalProductCode END DESC,
+		CASE WHEN @sort = 'ProductName' AND @sortdirection ='ASC' THEN ProductName END ASC,
+		CASE WHEN @sort = 'ProductName' AND @sortdirection ='DESC' THEN ProductName END DESC,
+		CASE WHEN @sort = 'CreatedOn' AND @sortdirection ='ASC' THEN CreatedOn END ASC,
+		CASE WHEN @sort = 'CreatedOn' AND @sortdirection ='DESC' THEN CreatedOn END DESC
+      OFFSET @size * (@page - 1) ROWS
+      FETCH NEXT @size ROWS ONLY
+   )
+
+    SELECT c.Id, c.ProgramId, c.ProductCode, c.ExternalProductCode, c.ProductName, c.[Description], c.Note, c.MinRedeemQuantity, c.MaxIssuingQuantity, c.[Status], c.CreatedBy, c.CreatedOn, c.ExpirationDate  
+    FROM dbo.Product AS c with(nolock)
+    WHERE EXISTS (SELECT 1 FROM pg WHERE pg.Id = c.Id)
+	ORDER BY 
+	CASE WHEN @sort = 'Id' AND @sortdirection ='ASC' THEN ProductCode END ASC,
+	CASE WHEN @sort = 'Id' AND @sortdirection ='DESC' THEN ProductCode END DESC,
+	CASE WHEN @sort = 'ProductCode' AND @sortdirection ='ASC' THEN ProductCode END ASC,
+	CASE WHEN @sort = 'ProductCode' AND @sortdirection ='DESC' THEN ProductCode END DESC,
+	CASE WHEN @sort = 'ExternalProductCode' AND @sortdirection ='ASC' THEN ExternalProductCode END ASC,
+	CASE WHEN @sort = 'ExternalProductCode' AND @sortdirection ='DESC' THEN ExternalProductCode END DESC,
+	CASE WHEN @sort = 'ProductName' AND @sortdirection ='ASC' THEN ProductName END ASC,
+	CASE WHEN @sort = 'ProductName' AND @sortdirection ='DESC' THEN ProductName END DESC,
+	CASE WHEN @sort = 'CreatedOn' AND @sortdirection ='ASC' THEN CreatedOn END ASC,
+	CASE WHEN @sort = 'CreatedOn' AND @sortdirection ='DESC' THEN CreatedOn END DESC
+    OPTION (RECOMPILE);
+		                    
+    set @totalrow = (SELECT COUNT(*) FROM [dbo].[Product] with(nolock) where ISNULL(@VoucherNumberGenerateWay, '') = '' OR VoucherNumberGenerateWay = @VoucherNumberGenerateWay);
+    COMMIT TRANSACTION;
+    return 1;
+    END TRY
+    BEGIN CATCH
+        SELECT @ErrorMessage = ERROR_MESSAGE();
+		return -1;
+    END CATCH;
+END
