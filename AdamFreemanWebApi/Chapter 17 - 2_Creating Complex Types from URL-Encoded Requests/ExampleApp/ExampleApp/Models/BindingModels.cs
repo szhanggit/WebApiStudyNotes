@@ -1,0 +1,20 @@
+﻿namespace ExampleApp.Models {
+
+    public class Numbers {
+        public Numbers() { }
+        public Numbers(int first, int second)
+        {
+            First = first; Second = second;
+        }
+        public int First { get; set; }
+        public int Second { get; set; }
+        public Operation Op { get; set; }
+        public string Accept { get; set; }
+    }
+
+    public class Operation {
+        public bool Add { get; set; }
+        public bool Double { get; set; }
+    }
+
+}
