@@ -1,0 +1,3 @@
+﻿https://www.c-sharpcorner.com/article/cors-in-dotnet-core/
+
+http://localhost:52617/weatherforecast

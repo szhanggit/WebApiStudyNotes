@@ -1,0 +1,9 @@
+﻿Install-Package Swashbuckle.AspNetCore
+Install-Package Microsoft.Extensions.Http
+Install-Package Newtonsoft.Json
+http://localhost:40230/swagger/index.html
+https://localhost:44360/swagger/index.html
+
+https://www.thecodebuzz.com/http-get-post-put-example-using-httpclientfactory/
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-6.0
+https://www.infoworld.com/article/3586176/how-to-use-ihttpclientfactory-in-aspnet-core.html
