@@ -1,0 +1,4 @@
+﻿[POST] https://localhost:7085/api/Product
+{
+  "productId": 70
+}

@@ -1,0 +1,2 @@
+https://javascript.plainenglish.io/jwt-token-authentication-using-the-net-core-6-web-api-24e585ecc24a
+https://token.dev/

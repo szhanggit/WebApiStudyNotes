@@ -1,0 +1,9 @@
+﻿https://jasonwatmore.com/post/2021/12/14/net-6-jwt-authentication-tutorial-with-example-api
+
+[POST]	http://localhost:4000/users/authenticate
+{
+	"username":"test",
+	"password":"test"
+}
+
+[GET]	http://localhost:4000/users

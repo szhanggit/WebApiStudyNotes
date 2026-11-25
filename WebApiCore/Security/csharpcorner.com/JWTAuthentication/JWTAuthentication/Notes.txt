@@ -1,0 +1,5 @@
+﻿https://www.c-sharpcorner.com/article/jwt-json-web-token-authentication-in-asp-net-core/
+
+
+[POST]   https://localhost:44322/api/login
+{"username": "Jignesh", "password": "password"} 

@@ -1,0 +1,14 @@
+﻿https://jasonwatmore.com/post/2021/12/14/net-6-jwt-authentication-tutorial-with-example-api
+Login:
+
+JwtMiddleware	
+authenticate action	=>	Get token
+
+Get all users:
+
+JwtMiddleware	=>	parse token	=>	get user id	=>	Assign user info into context.Items["User"]
+Authorize attribute	=>	check if context.Items["User"] gets value.
+GetAll action
+
+
+https://www.cnblogs.com/wl-blog/p/14499329.html

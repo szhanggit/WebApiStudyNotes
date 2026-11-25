@@ -1,0 +1,20 @@
+﻿https://medium.com/c-sharp-progarmming/asp-net-core-5-jwt-authentication-tutorial-with-example-api-aa59e80d02da
+
+add-migration initialmigration
+Update-Database
+
+
+[GET] https://localhost:5001/WeatherForecast
+Authorization => Bearer Token => Fill Token
+
+
+{
+	"username": "AlpeshPatel",
+	"email": "PatelAlpeshn@gmail.com",
+	"password": "Test@1234"
+}
+
+{
+	"username": "AlpeshPatel",
+	"password": "Test@1234"
+}

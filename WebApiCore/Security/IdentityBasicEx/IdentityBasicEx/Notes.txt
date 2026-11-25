@@ -1,0 +1,5 @@
+﻿Add-Migration CreatingIdentityTables	(Remove-Migration)
+Update-Database
+
+Add-Migration AddedRolesToDb
+Update-Database
