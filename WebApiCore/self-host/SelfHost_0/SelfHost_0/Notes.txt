@@ -1,0 +1,16 @@
+﻿https://www.c-sharpcorner.com/article/how-to-host-asp-net-core-3-1-web-applications-as-windows-service/
+Searching Key: asp.net core 3.1 self-host web api
+
+
+Install-Package Microsoft.Extensions.Hosting.WindowsServices 
+Open your Program.cs, and you will see the CreateHostBuilder method so add UseWindowsService() at the end of the method. 
+
+dotnet publish -c Release -r win-x64 --self-contained 
+
+sc create TestAPIWorker BinPath=D:\Study\WebApiStudyNotes\WebApiCore\self-host\SelfHost_0\SelfHost_0\bin\Release\netcoreapp3.1\publish\SelfHost_0.exe
+sc start TestAPIWorker
+sc stop TestAPIWorker
+sc delete TestAPIWorker
+
+After checking launchSettings.json
+http://localhost:5000/api/Product
