@@ -1,0 +1,47 @@
+Update-Package Microsoft.Aspnet.Mvc -version 5.1.1		(might not need)
+Update-Package Microsoft.Aspnet.Webapi -version 5.1.1		(might not need)
+Update-Package Newtonsoft.Json -version 6.0.1			(might not need)
+Install-Package Microsoft.AspNet.Identity.EntityFramework �CVersion 2.0.0
+Install-Package Microsoft.AspNet.Identity.OWIN -Version 2.0.0
+Install-Package Microsoft.Owin.Host.SystemWeb -Version 2.1.0
+Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.1.1	(Install-Package Microsoft.AspNet.WebApi.Owin -Version 5.2.7)
+Install-Package jquery -version 2.1.0
+Install-Package bootstrap -version 3.1.1
+Install-Package knockoutjs �Cversion 3.1.0
+
+http://msdn.microsoft.com/data/ef.aspx
+
+The steps to setup OWIN
+1. Add IdentityConfig.cs under App_Start
+using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(SportsStore.IdentityConfig))]
+namespace SportsStore {
+public class IdentityConfig {
+public void Configuration(IAppBuilder app) {}
+}
+}
+
+
+
+
+D:\Study\WebApiStudyNotes\AdamFreemanWebApi\Chapter 05 - 1_Code First\SportsStore\SportsStore\Views\Prep\Orders.cshtml
+@using (Html.BeginForm("SaveOrder", "Prep"))
+{
+    <input type="hidden" name="Customer" value="John Poet" />
+    <input type="hidden" name="TotalCost" value="91" />
+    <input type="hidden" name="lines[0].productid" value="6" />
+    <input type="hidden" name="lines[0].count" value="1" />
+    <input type="hidden" name="lines[1].productid" value="8" />
+    <input type="hidden" name="lines[1].count" value="1" />
+    <button class="btn btn-primary" type="submit">Create</button>
+    <a href="/prep/deleteorder/2" class="btn btn-primary">Delete</a>
+}
+
+
+
+D:\Study\WebApiStudyNotes\AdamFreemanWebApi\Chapter 05 - 1_Code First\SportsStore\SportsStore\Models\ProductRepository.cs
+        public IEnumerable<Order> Orders
+        {
+            get { return context.Orders.Include("Lines").Include("Lines.Product"); }
+        }
