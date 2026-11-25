@@ -1,0 +1,2 @@
+https://www.youtube.com/watch?v=9a0ppipDOgI
+How to implement Filtering, Sorting, and Paging in ASP.NET Core REST API
