@@ -1,0 +1,21 @@
+Update-Package microsoft.aspnet.mvc -version 5.1.1
+Update-Package microsoft.aspnet.webapi -version 5.1.1
+Update-Package Newtonsoft.json -version 6.0.1
+
+http://getbootstrap.com
+
+Install-Package jquery -version 2.1.0
+Install-Package bootstrap -version 3.1.1
+Install-Package knockoutjs ¨Cversion 3.1.0
+
+Setting the Port and Start URL
+The final preparations I need to make specify the TCP port that will be used to receive requests and the initial URL
+that will be passed to the browser when the project is started. Select Party Invites Properties from the Visual Studio
+Project menu and click Web to open the settings for ASP.NET projects.
+Enable the Specific Page option and enter Home/Index in the field. On the same page, change the value in the
+Project Url field to http://localhost:37993/ and click the Create Virtual Directory button.
+The first change prevents Visual Studio from trying to work out what URL should be shown when the application
+starts based on the file you edited most recently, and the second change means that requests will be received on TCP
+port 37993.
+
+PartyInvites

@@ -1,0 +1,9 @@
+            config.Routes.MapHttpRoute(
+                name: "ChromeRoute",
+                routeTemplate: "api/today/DayOfWeek",
+                defaults: new { controller = "today", action = "dayofweek" },
+                constraints: new {
+                    useragent = new UserAgentConstraint("Chrome"),
+                    action = new RegexRouteConstraint("daynumber|othermethod")
+                }
+            );

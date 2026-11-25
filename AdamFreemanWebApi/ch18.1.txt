@@ -1,0 +1,48 @@
+    public class Product {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        [HttpBindRequired]
+        public decimal Price { get; set; }
+        [HttpBindNever]
+        public bool IncludeInSale { get; set; }
+    }
+
+
+        public IHttpActionResult Post(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                repo.SaveProduct(product);
+                return Ok();
+            }
+            else
+            {
+                foreach (string property in ModelState.Keys)
+                {
+                    ModelState mState = ModelState[property];
+                    IEnumerable<ModelError> mErrors = mState.Errors;
+                    foreach (ModelError error in mErrors)
+                    {
+                        Debug.WriteLine("Property: {0}, Error: {1}",
+                        property, error.ErrorMessage);
+                    }
+                }
+                return BadRequest(ModelState);
+            }
+        }
+
+
+
+/*
+ [Compare("OtherProperty")]
+ [CreditCard]
+ [Email]
+ [Enum(typeof(MyEnum)]
+ [MaxLength(10)]
+ [MinLength(2)]
+ [Range(10, 20)]
+ [RegularExpression("blue|green")]
+ [Required]
+ [StringLength(10)]
+     */
+

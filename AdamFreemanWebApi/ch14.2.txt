@@ -1,0 +1,12 @@
+        [HttpGet]
+        [HttpPost]
+        public int SumNumbers([FromBody] Numbers calc) {
+            return calc.First + calc.Second;
+        }
+
+        /*
+         Post http://localhost:29844/api/bindings/sumnumbers
+         Headers:   
+         Content-Type       application/json
+         Body(raw):         { "first": 2, "second": 5 } 
+             */

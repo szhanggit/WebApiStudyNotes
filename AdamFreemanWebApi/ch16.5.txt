@@ -1,0 +1,24 @@
+var sendRequest = function (requestType) {
+    $.ajax("/api/bindings/sumnumbers", {
+        type: "GET",
+        data: {
+            numbers: [{ first: viewModel().first, second: viewModel().second },
+            { first: viewModel().third, second: viewModel().fourth }]
+        },            
+        success: function (data) {
+            gotError(false);
+            response("Total: " + data);
+        },
+        error: function (jqXHR) {
+            gotError(true);
+            response(jqXHR.status + " (" + jqXHR.statusText + ")");
+        }
+    });
+};
+
+        [HttpGet]
+        [HttpPost]
+        public string SumNumbers([ModelBinder] Numbers[] numbers)
+        {
+            return numbers.Select(x => x.First + x.Second).Sum().ToString();
+        }

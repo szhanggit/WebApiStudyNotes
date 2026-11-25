@@ -1,0 +1,13 @@
+        [HttpGet]
+        //[Route("getdaynumber")]
+        //To prevent the prefix from being applied, I have updated the route template so that it begins with ~/, like this:
+        [Route("~/getdaynumber")]
+        public int DayNumber()
+        {
+            return DateTime.Now.Day;
+        }
+
+        /*
+         Get http://localhost:49412/getdaynumber
+         Content-Type       application/json
+         */

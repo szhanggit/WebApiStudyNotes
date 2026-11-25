@@ -1,0 +1,10 @@
+The CancellationToken parameter is used to signal when the request has been cancelled. You can ignore
+cancellation in your asynchronous methods, but it is good practice to stop the work you are performing if you can,
+not least because you know that the result you produce is going to be discarded.
+
+Debug.WriteLine("Elapsed ms: {0}", sw.ElapsedMilliseconds);
+
+public Task PostUrl(string newUrl, CancellationToken cToken) {
+	TargetUrl = newUrl;
+	return Task.FromResult<object>(null);
+}

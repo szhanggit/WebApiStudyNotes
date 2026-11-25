@@ -1,0 +1,7 @@
+Product result = Repository.Products.Where(p => p.Id == id).FirstOrDefault();
+if (result == null) {
+	throw new HttpResponseException(HttpStatusCode.BadRequest);//Bad Request
+} else {
+	return result;
+}
+

@@ -1,0 +1,3 @@
+The argument passed to the base constructor is the name of the connection string that is used to create the
+database. As you will see, when using EF Code First, I don’t have to create a connection string in the Web.config file,
+but the name I have specified—SportsStoreDb—will be important when I deploy the application in Chapter 8.

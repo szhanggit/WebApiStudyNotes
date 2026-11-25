@@ -1,0 +1,9 @@
+        public string SumNumbers([FromUri] Numbers numbers1, [FromUri] Numbers numbers2)
+        {
+            return string.Format("{0}", numbers1.First + numbers1.Second + numbers2.First + numbers2.Second);
+        }
+
+        /*
+         Get http://localhost:29844/api/bindings/sumnumbers?numbers1.first=2&numbers1.second=5&numbers2.first=10&numbers2.second=100 
+         Content-Type       application/json
+         */

@@ -1,0 +1,47 @@
+    public class OrderLine
+    {
+        [HttpBindNever]
+        public int Id { get; set; }
+        [Required]
+        [Range(0, 100)]
+        public int Count { get; set; }
+        [Required]
+        public int ProductId { get; set; }
+        [HttpBindNever]
+        public int OrderId { get; set; }
+        [HttpBindNever]
+        public Product Product { get; set; }
+        [HttpBindNever]
+        public Order Order { get; set; }
+    }
+
+
+Testing:
+Post http://localhost:6100/authenticate with x-www-form-urlencoded
+grant_type	password
+username		Bod(Admin)
+password		secret
+
+{"error":"invalid_grant","error_description":"The username or password is incorrect"}
+
+{"access_token":"vJwc8Aj2r2nt0NxtO1uhL7YOc66vMS1fsUfYvvQuZ76X-SQxxRLdaECj1Dnu0BpbVi
+ExwX9TEdQQ-4A3d4BSlz8HCOp5nhPaveLifLaflAmj1NGv8KDef0azJBWCgFs2E3IiAGs-qLrXzR
+_9iZyW1W3cdbo6vP6Wdzc5KVoB4y2ihA6qdVbOkREkCjgxtBbH7rz26kbE4xTddPAeIqsJPtgSTM
+XeT4X-WlgW_QAwul3AER_52nmA8UEu7uBBz1YWAEtfl-MYEEkMa2hwN-aPz91mypaYSb4-SlWAqr
+-OY73iv1GTxcEn11h0GE4YDCZZ4DJ5i1YiYeGF5GYQPPnLghWMOBH5nEGlsZTb7ee9M3SSAgYQZw
+k1y8f8k8tDR9DuEniJTSessK2V_8AqTjleDhOkGStzzD5Je_pz30CP9UZMwsH3yyBpOS-XoXzgOjcyMsYguIf0D_
+dT9Qp2gBrkuoSaAvlu8_bVAERL1rwZERtoKVkoMCxKxdFgnnKLOaU",
+"token_type":"bearer",
+"expires_in":1199}
+
+Testing again:	(Make sure that put Authorization in header)
+Delete	http://localhost:6100/api/products/2
+Authorization	bearer vJwc8Aj2r2nt0NxtO1uhL7YOc66vMS1fsUfYvvQuZ76X-SQxxRLdaECj1Dnu0BpbVi
+ExwX9TEdQQ-4A3d4BSlz8HCOp5nhPaveLifLaflAmj1NGv8KDef0azJBWCgFs2E3IiAGs-qLrXzR
+_9iZyW1W3cdbo6vP6Wdzc5KVoB4y2ihA6qdVbOkREkCjgxtBbH7rz26kbE4xTddPAeIqsJPtgSTM
+XeT4X-WlgW_QAwul3AER_52nmA8UEu7uBBz1YWAEtfl-MYEEkMa2hwN-aPz91mypaYSb4-SlWAqr
+-OY73iv1GTxcEn11h0GE4YDCZZ4DJ5i1YiYeGF5GYQPPnLghWMOBH5nEGlsZTb7ee9M3SSAgYQZw
+k1y8f8k8tDR9DuEniJTSessK2V_8AqTjleDhOkGStzzD5Je_pz30CP9UZMwsH3yyBpOS-XoXzgOjcyMsYguIf0D_
+dT9Qp2gBrkuoSaAvlu8_bVAERL1rwZERtoKVkoMCxKxdFgnnKLOaU
+
+

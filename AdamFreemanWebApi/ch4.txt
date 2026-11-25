@@ -1,0 +1,2 @@
+Simple web service is tighter than restful web service.
+Restful web serivce can be available for any clients.

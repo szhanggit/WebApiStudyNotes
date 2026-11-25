@@ -1,0 +1,23 @@
+        /*
+         Use value providers and value provider factories 
+         when you want to bind parameter values from parts of the request 
+         other than the URL or the body or from some other data source entirely.
+             */
+        [HttpGet]
+        [HttpPost]
+        //public string SumNumbers([ModelBinder] int[] numbers)
+        //{
+        //    return numbers.Sum().ToString();
+        //}
+        //public string SumNumbers([ModelBinder] List<int> numbers) {
+        //    return numbers.Sum().ToString();
+        //}
+        public string SumNumbers([ModelBinder] IEnumerable<int> numbers)
+        {
+            return numbers.Sum().ToString();
+        }
+
+        /*
+         GET http://localhost:29844/api/bindings/sumnumbers?numbers=2&numbers=5&numbers=100 
+         Content-Type       application/json
+         */

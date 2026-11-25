@@ -1,0 +1,13 @@
+right-click the Chrome Refresh button and select Empty Cache and Hard Reload from the pop-up window.
+This option is available only when the F12 developer tools window is opened.
+
+
+
+        /*
+         http://localhost:29844/api/bindings/sumnumbers?first=2&second=5
+             */
+        [HttpGet]
+        [HttpPost]
+        public int SumNumbers(int first, int second) {
+            return first + second;
+        }

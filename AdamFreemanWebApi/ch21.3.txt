@@ -1,0 +1,11 @@
+        [HttpGet]
+        [Route("dayofweek/{day:range(0, 6)}")]
+        public string DayOfWeek(int day)
+        {
+            return Enum.GetValues(typeof(DayOfWeek)).GetValue(day).ToString();
+        }
+
+        /*
+         Get http://localhost:49412/api/Today/dayofweek/6
+         Content-Type       application/json
+         */
