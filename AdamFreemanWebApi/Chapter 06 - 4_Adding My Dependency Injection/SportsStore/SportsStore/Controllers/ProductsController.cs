@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using SportsStore.Models;
+using System.Threading.Tasks;
+
+namespace SportsStore.Controllers
+{
+    public class ProductsController : ApiController
+    {
+        IRepository repo;
+        public ProductsController(IRepository repoImpl)
+        {
+            repo = repoImpl;
+        }
+        public IEnumerable<Product> GetProducts()
+        {
+            return repo.Products;
+        }
+        /*http://localhost:6100/api/products/2*/
+        public IHttpActionResult GetProduct(int id)
+        {
+            Product result = repo.Products.Where(p => p.Id == id).FirstOrDefault();
+            return result == null? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
+        }
+        public async Task<IHttpActionResult> PostProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                await repo.SaveProductAsync(product);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        [Authorize(Roles = "Administrators")]
+        public async Task DeleteProduct(int id)
+        {
+            await repo.DeleteProductAsync(id);
+        }
+        
+    }
+}
