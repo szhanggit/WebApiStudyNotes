@@ -1,0 +1,60 @@
+https://csharp-video-tutorials.blogspot.com/2016/09/call-aspnet-web-api-from-jquery.html
+
+In this video we will discuss how to call ASP.NET Web API Service using jQuery.
+
+
+
+When "Get All Employees" button is clicked we want to retrieve all the employees and display their fullname in unordered list. 
+When "Clear" button is clicked we want to clear the employees from the list.
+Call ASP.NET Web API from jQuery
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ulEmployees = $('#ulEmployees');
+            $('#btn').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "api/employees/",
+                    dataType: 'json',
+                    success: function (data) {
+                        ulEmployees.empty();
+                        $.each(data, function (index, val) {
+                            var fullName = val.FirstName + ' ' + val.LastName;
+                            ulEmployees.append('<li>' + fullName + '</li>');
+                        });
+                    }
+                });
+            });
+            $('#btnClear').click(function () {
+                ulEmployees.empty();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <input id="btn" type="button" value="Get All Employees" />
+        <input id="btnClear" type="button" value="Clear" />
+        <ul id="ulEmployees" />
+    </div>
+</body>
+</html>
+
+In our case both the client 
+(i.e the HTML page that contains the ajax code) 
+and the asp.net web api service are in the same project so it worked without any problem. 
+If they are present in different projects then this wouldn't work.
+
+In our next video we will discuss 
+
+    Why the AJAX call wouldn't work if the client and service are in different projects
+    How to make it work
+
